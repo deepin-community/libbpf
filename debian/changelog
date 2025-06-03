@@ -1,3 +1,9 @@
+libbpf (1.5.0-2deepin1) unstable; urgency=medium
+
+  * feat: add sw64 support.
+
+ -- hudeng <hudeng@deepin.org>  Tue, 03 Jun 2025 20:04:20 +0800
+
 libbpf (1.5.0-2) unstable; urgency=medium
 
   * Add basic autopkgtest.
