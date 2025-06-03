@@ -1,0 +1,71 @@
+From 5d9bfe56369b5c00fde9fd4b761798b22ff81f4e Mon Sep 17 00:00:00 2001
+From: hudeng <hudeng@deepin.org>
+Date: Thu, 8 May 2025 07:08:47 +0000
+Subject: [PATCH 1/2] feat: add sw support
+
+---
+ src/bpf_tracing.h | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/src/bpf_tracing.h b/src/bpf_tracing.h
+index a8f6cd4..6d94412 100644
+--- a/src/bpf_tracing.h
++++ b/src/bpf_tracing.h
+@@ -35,6 +35,9 @@
+ #elif defined(__TARGET_ARCH_loongarch)
+ 	#define bpf_target_loongarch
+ 	#define bpf_target_defined
++#elif defined(__TARGET_ARCH_sw_64)
++	#define bpf_target_sw64
++	#define bpf_target_defined
+ #else
+ 
+ /* Fall back to what the compiler says */
+@@ -68,6 +71,9 @@
+ #elif defined(__loongarch__)
+ 	#define bpf_target_loongarch
+ 	#define bpf_target_defined
++#elif defined(__sw_64__)
++	#define bpf_target_sw64
++	#define bpf_target_defined
+ #endif /* no compiler target */
+ 
+ #endif
+@@ -448,6 +454,34 @@ struct pt_regs___riscv {
+ #define __PT_SP_REG regs[3]
+ #define __PT_IP_REG csr_era
+ 
++#elif defined(bpf_target_sw64)
++
++/* sw64 provides struct user_pt_regs instead of struct pt_regs to userspace */
++#define PT_REGS_SW64 const volatile struct user_pt_regs
++#define __PT_REGS_CAST(x) ((PT_REGS_SW64 *)(x))
++#define __PT_PARM1_REG regs[16]
++#define __PT_PARM2_REG regs[17]
++#define __PT_PARM3_REG regs[18]
++#define __PT_PARM4_REG regs[19]
++#define __PT_PARM5_REG regs[20]
++#define __PT_PARM6_REG regs[21]
++
++/* sw64 does not select ARCH_HAS_SYSCALL_WRAPPER. */
++#define PT_REGS_SYSCALL_REGS(ctx) ctx
++#define __PT_PARM1_SYSCALL_REG __PT_PARM1_REG
++#define __PT_PARM2_SYSCALL_REG __PT_PARM2_REG
++#define __PT_PARM3_SYSCALL_REG __PT_PARM3_REG
++#define __PT_PARM4_SYSCALL_REG __PT_PARM4_REG
++#define __PT_PARM5_SYSCALL_REG __PT_PARM5_REG
++#define __PT_PARM6_SYSCALL_REG __PT_PARM6_REG
++
++/* Works only with CONFIG_FRAME_POINTER */
++#define __PT_RET_REG regs[26]
++#define __PT_FP_REG regs[15]
++#define __PT_RC_REG regs[0]
++#define __PT_SP_REG regs[30]
++#define __PT_IP_REG pc
++
+ #endif
+ 
+ #if defined(bpf_target_defined)
+-- 
+2.43.4
+
