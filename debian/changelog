@@ -1,3 +1,9 @@
+libbpf (1.5.0-2deepin2) unstable; urgency=medium
+
+  * fix(cve): CVE-2022-3533
+
+ -- deepin-ci-robot <packages@deepin.org>  Sat, 18 Jul 2026 20:06:27 +0800
+
 libbpf (1.5.0-2deepin1) unstable; urgency=medium
 
   * feat: add sw64 support.
