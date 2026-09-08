@@ -1,16 +1,59 @@
-libbpf (1.5.0-2deepin2) unstable; urgency=medium
+libbpf (1.7.0-1) unstable; urgency=medium
 
-  * Fix CVE-2025-29481: buffer overflow in bpf_object__init_prog.
-    - Add overflow check when calculating program offset.
-    - Patch from upstream: https://github.com/libbpf/libbpf/commit/806b4e0a9f
+  * Upload to unstable.
 
- -- hudeng <hudeng@deepin.org>  Tue, 29 Apr 2025 12:50:00 +0800
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Tue, 31 Mar 2026 21:40:22 +0100
 
-libbpf (1.5.0-2deepin1) unstable; urgency=medium
+libbpf (1.7.0-1~exp1) experimental; urgency=medium
 
-  * feat: add sw64 support.
+  * New upstream version 1.7.0
+    - Update symbols.
+    - Update copyright.
 
- -- hudeng <hudeng@deepin.org>  Tue, 03 Jun 2025 20:04:20 +0800
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Tue, 17 Mar 2026 21:40:30 +0000
+
+libbpf (1.6.3-1) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Sat, 14 Mar 2026 12:55:31 +0000
+
+libbpf (1.6.3-1~exp1) experimental; urgency=medium
+
+  * New upstream version 1.6.3
+  * Update Standards-Version to 4.7.3
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Mon, 23 Feb 2026 20:05:40 +0000
+
+libbpf (1.6.2-1) unstable; urgency=medium
+
+  * New upstream version 1.6.2
+    - Update symbols.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Fri, 22 Aug 2025 12:43:08 +0100
+
+libbpf (1.6.1-1) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Sat, 16 Aug 2025 22:53:11 +0100
+
+libbpf (1.6.1-1~exp1) experimental; urgency=medium
+
+  * New upstream version 1.6.1
+    - Update symbols.
+    - Remove upstream applied patch.
+  * Remove old fsf address in d/copyright.
+  * Update Standards-Version to 4.7.2.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Sun, 10 Aug 2025 10:29:02 +0100
+
+libbpf (1.5.0-3) unstable; urgency=medium
+
+  * CVE-2025-29481:
+    - Fix buffer overflow in bpf_object__init_prog. (Closes: #1102672)
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Fri, 25 Apr 2025 19:49:15 +0100
 
 libbpf (1.5.0-2) unstable; urgency=medium
 
