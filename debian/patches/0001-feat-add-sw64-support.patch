@@ -1,0 +1,81 @@
+Description: add sw64 (SW-64) architecture support
+ Add support for the sw64 architecture in BPF tracing helpers
+ (bpf_tracing.h: target detection, pt_regs layout, syscall wrapper
+ handling) and set the correct __NR_bpf (170) for sw64 in bpf.c.
+Author: hudeng <hudeng@deepin.org>
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2026-09-09
+
+diff --git a/src/bpf.c b/src/bpf.c
+index 5846de3..b79599a 100644
+--- a/src/bpf.c
++++ b/src/bpf.c
+@@ -53,6 +53,8 @@
+ #  define __NR_bpf 351
+ # elif defined(__arc__)
+ #  define __NR_bpf 280
++# elif defined(__sw_64__)
++#  define __NR_bpf 170
+ # elif defined(__mips__) && defined(_ABIO32)
+ #  define __NR_bpf 4355
+ # elif defined(__mips__) && defined(_ABIN32)
+diff --git a/src/bpf_tracing.h b/src/bpf_tracing.h
+index dbe32a5..35e777c 100644
+--- a/src/bpf_tracing.h
++++ b/src/bpf_tracing.h
+@@ -35,6 +35,9 @@
+ #elif defined(__TARGET_ARCH_loongarch)
+ 	#define bpf_target_loongarch
+ 	#define bpf_target_defined
++#elif defined(__TARGET_ARCH_sw_64)
++	#define bpf_target_sw64
++	#define bpf_target_defined
+ #else
+ 
+ /* Fall back to what the compiler says */
+@@ -68,6 +71,9 @@
+ #elif defined(__loongarch__)
+ 	#define bpf_target_loongarch
+ 	#define bpf_target_defined
++#elif defined(__sw_64__)
++	#define bpf_target_sw64
++	#define bpf_target_defined
+ #endif /* no compiler target */
+ 
+ #endif
+@@ -448,6 +454,34 @@ struct pt_regs___riscv {
+ #define __PT_SP_REG regs[3]
+ #define __PT_IP_REG csr_era
+ 
++#elif defined(bpf_target_sw64)
++
++/* sw64 provides struct user_pt_regs instead of struct pt_regs to userspace */
++#define PT_REGS_SW64 const volatile struct user_pt_regs
++#define __PT_REGS_CAST(x) ((PT_REGS_SW64 *)(x))
++#define __PT_PARM1_REG regs[16]
++#define __PT_PARM2_REG regs[17]
++#define __PT_PARM3_REG regs[18]
++#define __PT_PARM4_REG regs[19]
++#define __PT_PARM5_REG regs[20]
++#define __PT_PARM6_REG regs[21]
++
++/* sw64 does not select ARCH_HAS_SYSCALL_WRAPPER. */
++#define PT_REGS_SYSCALL_REGS(ctx) ctx
++#define __PT_PARM1_SYSCALL_REG __PT_PARM1_REG
++#define __PT_PARM2_SYSCALL_REG __PT_PARM2_REG
++#define __PT_PARM3_SYSCALL_REG __PT_PARM3_REG
++#define __PT_PARM4_SYSCALL_REG __PT_PARM4_REG
++#define __PT_PARM5_SYSCALL_REG __PT_PARM5_REG
++#define __PT_PARM6_SYSCALL_REG __PT_PARM6_REG
++
++/* Works only with CONFIG_FRAME_POINTER */
++#define __PT_RET_REG regs[26]
++#define __PT_FP_REG regs[15]
++#define __PT_RC_REG regs[0]
++#define __PT_SP_REG regs[30]
++#define __PT_IP_REG pc
++
+ #endif
+ 
+ #if defined(bpf_target_defined)

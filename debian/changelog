@@ -1,3 +1,9 @@
+libbpf (1.7.0-1deepin1) unstable; urgency=medium
+
+  * Re-add sw64 support (0001-feat-add-sw64-support.patch): the 1.7.0-1 update dropped the deepin sw64 port; re-backport it adapted to 1.7.0-1 to fix the sw64 build.
+
+ -- lichenggang <lichenggang@uniontech.com>  Wed, 09 Sep 2026 11:02:46 +0800
+
 libbpf (1.7.0-1) unstable; urgency=medium
 
   * Upload to unstable.
