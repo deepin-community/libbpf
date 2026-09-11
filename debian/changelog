@@ -1,3 +1,9 @@
+libbpf (1.7.0-1deepin2) unstable; urgency=medium
+
+  * Rebuild with LTO enabled (dpkg vendor feature optimize/lto).
+
+ -- tunaichao <tunaichao@uniontech.com>  Fri, 11 Sep 2026 15:42:03 +0800
+
 libbpf (1.7.0-1deepin1) unstable; urgency=medium
 
   * Re-add sw64 support (0001-feat-add-sw64-support.patch): the 1.7.0-1 update dropped the deepin sw64 port; re-backport it adapted to 1.7.0-1 to fix the sw64 build.
